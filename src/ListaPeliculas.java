@@ -41,16 +41,17 @@ public class ListaPeliculas {
             return null;
         }
 
-    public Pelicula reducir(int id) {
+    public boolean reducir(int id) {
         for (int i = 0; i < this.cantidadPeliculas; i++) {
             Pelicula pelicula = this.listaPeliculas[i];
 
             if (pelicula.getId() == id && pelicula.getStock() > 0) {
                 pelicula.setStock(pelicula.getStock() - 1);
+                return true;
             }
 
         }
-        return null;
+        return false;
     }
 
 

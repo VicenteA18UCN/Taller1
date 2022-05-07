@@ -41,16 +41,17 @@ public class ListaLibros {
         return null;
     }
 
-    public Libro reducir(int id) {
+    public boolean reducir(int id) {
         for (int i = 0; i < this.cantidadLibros; i++) {
             Libro libro = this.listaLibros[i];
 
             if (libro.getId() == id && libro.getStock() > 0) {
                 libro.setStock(libro.getStock() - 1);
+                return true;
             }
 
         }
-        return null;
+        return false;
     }
 
     public int getCantidadLibros() {

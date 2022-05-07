@@ -7,6 +7,7 @@ public class Usuario {
     private String contrasena;
     private String membresia;
     private boolean advertencia;
+    private int cantArriendos = 0; // REVISAR
     private ListaLibros arriendosLibros;
     private ListaPeliculas arriendosPeliculas;
 
@@ -19,6 +20,14 @@ public class Usuario {
         this.nickname = nickname;
         this.contrasena = contrasena;
         this.membresia = membresia;
+    }
+
+    @Override
+    public String toString() {
+        return "Nombre Completo: " + this.nombre + this.apellidoPat + this.apellidoMat + "." + "\n" +
+                "Rut:" + this.rut + "." + "\n" +
+                "Nombre de Usuario:" + this.nickname + "\n" +
+                "Membresia:" + this.membresia;
     }
 
     public String getNombre() {
@@ -77,7 +86,11 @@ public class Usuario {
         this.membresia = membresia;
     }
 
-    public boolean isAdvertencia() {
+    public int getCantArriendos(int cantArriendos){ return cantArriendos;}
+
+    public void setCantArriendos(int cantArriendos){ this.cantArriendos = cantArriendos;}
+
+    public boolean getAdvertencia() {
         return advertencia;
     }
 
@@ -100,4 +113,5 @@ public class Usuario {
     public void setArriendosPeliculas(ListaPeliculas arriendosPeliculas) {
         this.arriendosPeliculas = arriendosPeliculas;
     }
+
 }
