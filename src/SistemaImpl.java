@@ -435,11 +435,37 @@ public class SistemaImpl implements Sistema {
 
     public boolean subirMembresia(String nickname)
     {
+        int contador = 0;
         Usuario usuario = listaUsuarios.obtenerNickname(nickname);
         String tipoMembresia = usuario.getMembresia();
         boolean advertensia = usuario.getAdvertencia();
-
-
-        if(tipoMembresia.equals("Normal"))
+        for (int i = 0; i <= listaTransaccion.getCantTransacciones(); i++)
+        {
+            Transaccion transaccion = listaTransaccion.buscar(i);
+            String nicknameTransaccion = transaccion.getUsuario().getNickname();
+            if(nickname.equals(nicknameTransaccion) && !transaccion.getAtraso())
+            {
+                contador++;
+            }
+        }
+        if(contador >= 5 && tipoMembresia.equals("Normal"))
+        {
+            tipoMembresia = "Estandar";
+            listaUsuarios.obtenerNickname(nickname).setMembresia(tipoMembresia);
+            return true;
+        }
+        if(contador >= 7 && tipoMembresia.equals("Estandar"))
+        {
+            tipoMembresia = "Premium";
+            listaUsuarios.obtenerNickname(nickname).setMembresia(tipoMembresia);
+            return true;
+        }
+        if(contador >= 10 && tipoMembresia.equals("Premium"))
+        {
+            tipoMembresia = "Vip";
+            listaUsuarios.obtenerNickname(nickname).setMembresia(tipoMembresia);
+            return true;
+        }
+        return false;
     }
 }

@@ -32,7 +32,8 @@ public class Main {
     {
         boolean continuar = true;
         StdOut.println("Bienvenido a Movies and Books");
-        while (continuar) {
+        while (continuar)
+        {
             StdOut.println("---------------------------- MENU PRINCIPAL ----------------------------");
             StdOut.println("1.1 Iniciar Seción.");
             StdOut.println("1.2 Registrar usuario");
@@ -49,6 +50,7 @@ public class Main {
                 case "3" -> continuar = false;
             }
         }
+        //Actualizar archivos aqui
     }
 
     private static void menuIniciarSecion(SistemaImpl sistemaImpl)
@@ -224,11 +226,25 @@ public class Main {
                 opcion = StdIn.readLine().toUpperCase();
                 switch (opcion.toUpperCase()) {
                     case "1" -> usuario.toString();
-                    case "2" -> subirMembresia();
+                    case "2" -> menuSubirMembresia(sistemaImpl,nickname,contrasena);
                     case "3" -> menuCambiarContrasena(sistemaImpl, nickname, contrasena);
                     case "4" -> continuar = false;
                 }
             }
+        }
+    }
+    private static void menuSubirMembresia(SistemaImpl sistemaImpl,String nickname,String contrasena)
+    {
+        boolean subirMembresia = sistemaImpl.subirMembresia(nickname);
+        Usuario usuario = sistemaImpl.obtenerUsuario(nickname,contrasena);
+        String tipoMembresia = usuario.getMembresia();
+        if (subirMembresia)
+        {
+            StdOut.println("Membresia actualizada a:"+tipoMembresia);
+        }
+        else if (!subirMembresia)
+        {
+            StdOut.println("No se cumplen los requisitos para actualizar la membresia");
         }
     }
     private static void menuCambiarContrasena(SistemaImpl sistemaImpl,String nickname, String contrasena)
@@ -322,7 +338,7 @@ public class Main {
                     StdOut.println("Ingrese un numero");
                 }
             }
-            boolean agregarLibro(nombre, autorODirector, genero1, genero2, cantPaginas, publicacionOEstreno);
+            sistemaImpl.agregarLibro(nombre, autorODirector, genero1, genero2, cantPaginas, publicacionOEstreno);
         }
         if(tipoProducto.equals("2"))
         {
@@ -333,11 +349,11 @@ public class Main {
                     StdOut.print("Ingrese la cantidad de mintos de la pelicula");
                     cantMinutos = StdIn.readInt();
                     break;
-                } catch (NumberFormatException) {
-                    StdOut.println("Ingrese un numeros");
+                } catch (NumberFormatException e) {
+                    StdOut.println("Ingrese un numero");
                 }
             }
-            boolean agegarPelibro(nombre, autorODirector, genero1, genero2,cantHoras,cantMinutos,publicacionOEstreno);
+           sistemaImpl.agregarPelicula(nombre, autorODirector, genero1, genero2,cantHoras,cantMinutos,publicacionOEstreno);
         }
     }
     private static void menuEstadisticas(SistemaImpl sistemaImpl)
