@@ -86,7 +86,7 @@ public class Usuario {
         this.membresia = membresia;
     }
 
-    public int getCantArriendos(int cantArriendos){ return cantArriendos;}
+    public int getCantArriendos(){ return cantArriendos;}
 
     public void setCantArriendos(int cantArriendos){ this.cantArriendos = cantArriendos;}
 

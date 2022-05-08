@@ -8,6 +8,15 @@ public class Libro {
     private int anioPublicacion;
     private int stock;
 
+    public Libro(int id, String nombre, String autor, String genero1, int cantPaginas, int anioPublicacion, int stock) {
+        this.id = id;
+        this.nombre = nombre;
+        this.autor = autor;
+        this.genero1 = genero1;
+        this.cantPaginas = cantPaginas;
+        this.anioPublicacion = anioPublicacion;
+        this.stock = stock;
+    }
     public Libro(int id, String nombre, String autor, String genero1, String genero2, int cantPaginas, int anioPublicacion, int stock) {
         this.id = id;
         this.nombre = nombre;

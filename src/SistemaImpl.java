@@ -1,6 +1,7 @@
 import ucn.ArchivoEntrada;
 import ucn.Registro;
 import java.util.Calendar;
+import java.util.Date;
 
 
 public class SistemaImpl implements Sistema {
@@ -159,7 +160,8 @@ public class SistemaImpl implements Sistema {
         }
         return false;
     }
-    public boolean cambiarContraseña(String nickname, String contrasena, String contrasenaNew) {
+    public boolean cambiarContraseña(String nickname, String contrasena, String contrasenaNew)
+    {
         Usuario usuario = this.listaUsuarios.obtener(nickname, contrasena);
 
         if (contrasenaNew.equals(contrasena) || contrasenaNew.length() <= 6)
@@ -221,9 +223,10 @@ public class SistemaImpl implements Sistema {
         }
     }
 
-    public boolean arrendarLibro(String rut, int idLibro, Calendar fechaTransaccion) {
+    public boolean arrendarLibro(String nickname, int idLibro, Calendar fechaTransaccion) //Deberiamos Cambiar el rut por nickname
+    {
 
-        Usuario usuario = this.listaUsuarios.obtener(rut);
+        Usuario usuario = this.listaUsuarios.obtenerNickname(nickname);
         Libro libro = this.listaLibros.buscar(idLibro);
 
 
@@ -254,13 +257,13 @@ public class SistemaImpl implements Sistema {
 
     }
 
-    public boolean arrendarPelicula(String rut, int idPelicula, Calendar fechaTransaccion) {
-        Usuario usuario = this.listaUsuarios.obtener(rut);
+    public boolean arrendarPelicula(String nickname, int idPelicula, Calendar fechaTransaccion) {
+        Usuario usuario = this.listaUsuarios.obtenerNickname(nickname);
         Pelicula pelicula = this.listaPeliculas.buscar(idPelicula);
-
+        //Innecesario
         if (usuario == null) {
             return false;
-        }
+        } //Innecesario
         if (pelicula.getStock() == 0) {
             return false;
 
@@ -282,7 +285,7 @@ public class SistemaImpl implements Sistema {
 
     }
 
-    public boolean devolverLibro(int id, Calendar fechaEntrega) // de transaccion
+    public boolean devolverLibro(int id,Calendar fechaEntrega) // de transaccion
     {
         boolean atraso = false;
         Transaccion transaccion = this.listaTransaccion.buscar(id);
@@ -341,7 +344,7 @@ public class SistemaImpl implements Sistema {
         return estTransacciones2022();
     }
 
-    public String[] tortura() {
+    public String[] estadisticas() {
         int cantUsuarios = this.listaUsuarios.getCantidadUsuarios();
         String[] usuarios = new String[cantUsuarios];
         String[] listaCompleta = new String[cantUsuarios];
@@ -353,7 +356,7 @@ public class SistemaImpl implements Sistema {
 
         for (int i = 0; i <= cantTransacciones; i++)
         {
-            boolean agregar = true
+            boolean agregar = true;
             Transaccion transaccion = this.listaTransaccion.buscar(i);
             boolean atraso = transaccion.getAtraso();
             if (transaccion.getTipoProducto().equals("Libro") && !atraso) {
@@ -371,10 +374,6 @@ public class SistemaImpl implements Sistema {
                     usuarios[usuariosid] = usuario.getRut();
                     prestamosUsuarios[usuariosid] = prestamosUsuarios[usuariosid]+1;
                     usuariosid = usuariosid + 1;
-                    listaCompleta[usuariosid] = usuario.getNombre();
-                    listaCompleta[usuariosid+1] = usuario.getApellidoPat();
-                    listaCompleta[usuariosid+2] = usuario.getApellidoMat();
-                    listaCompleta[usuariosid+3] = usuario.getNickname();
 
                 }
 
@@ -389,7 +388,7 @@ public class SistemaImpl implements Sistema {
         }
         for(int i=0; i<= usuariosid; i++)
         {
-            if(prestamosUsuarios[i] >= mayor)
+            if(prestamosUsuarios[i] == mayor)
             {
                 Usuario usuarioM = listaUsuarios.obtener(usuarios[i]);
                 listaCompleta[cantMayores] = usuarioM.getNombre();
@@ -400,5 +399,47 @@ public class SistemaImpl implements Sistema {
             }
         }
         return listaCompleta;
+    }
+
+    public boolean agregarLibro(String nombre, String autor, String genero1, String genero2, int cantPaginas, int anioPublicacion) {
+
+        int idNew = listaLibros.getCantidadLibros() + 1;
+
+        if (genero2.equals("")) {
+            Libro libro = new Libro(idNew, nombre, autor, genero1, cantPaginas, anioPublicacion, 1);
+            listaLibros.agregar(libro);
+            return true;
+        }
+        else{
+            Libro libro = new Libro(idNew, nombre, autor, genero1, genero2, cantPaginas, anioPublicacion, 1);
+            listaLibros.agregar(libro);
+            return true;
+        }
+    }
+
+    public boolean agregarPelicula(String nombre, String director, String genero1, String genero2, int cantHoras, int cantMinutos, int anioEstreno) {
+
+        int idNew = listaPeliculas.getCantidadPeliculas() + 1;
+
+        if (genero2.equals("")) {
+            Pelicula pelicula = new Pelicula(idNew, nombre, director, genero1, cantHoras, cantMinutos, anioEstreno, 1);
+            listaPeliculas.agregar(pelicula);
+            return true;
+        }
+        else{
+            Pelicula pelicula = new Pelicula(idNew, nombre, director, genero1, genero2, cantHoras,cantMinutos,anioEstreno, 1);
+            listaPeliculas.agregar(pelicula);
+            return true;
+        }
+    }
+
+    public boolean subirMembresia(String nickname)
+    {
+        Usuario usuario = listaUsuarios.obtenerNickname(nickname);
+        String tipoMembresia = usuario.getMembresia();
+        boolean advertensia = usuario.getAdvertencia();
+
+
+        if(tipoMembresia.equals("Normal"))
     }
 }

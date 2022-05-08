@@ -44,6 +44,22 @@ public class ListaUsuarios {
         return null;
     }
 
+    public Usuario obtenerNickname(String nickname)
+    {
+        for (int i = 0; i<this.cantidadUsuarios;i++)
+        {
+            Usuario usuario = this.listaUsuario[i];
+
+            if(usuario.getNickname().equalsIgnoreCase(nickname))
+            {
+                return usuario;
+            }
+
+        }
+
+        return null;
+    }
+
     public Usuario obtener(String nickname, String contrasena)
     {
         for (int i = 0; i<this.cantidadUsuarios;i++)
