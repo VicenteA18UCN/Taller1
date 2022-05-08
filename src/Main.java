@@ -15,7 +15,7 @@ public class Main {
             StdOut.println("Error en usuarios.txt");
 
         }
-        boolean lecturalibros = sistemaImpl.lecturaLibro("libros.txt");
+        boolean lecturalibros = sistemaImpl.lecturaLibros("libros.txt");
         if (!lecturalibros) {
             StdOut.println("Error en libros.txt");
 
@@ -145,7 +145,7 @@ public class Main {
                 StdOut.print("Ingrese la id del la pelicula que desea arrendar: ");
                 int idPelicula = StdIn.readInt();
                 Calendar diaActual = Calendar.getInstance();
-                boolean arrendarPelicula = sistemaImpl.arrendarLibro(nickname, idPelicula, diaActual);
+                boolean arrendarPelicula = sistemaImpl.arrendarPelicula(nickname, idPelicula, diaActual);
 
                 if (!arrendarPelicula) {
                     StdOut.println("No hay stock de ese producto");
@@ -191,7 +191,7 @@ public class Main {
             }
             if(tipoProducto.equals("2"))
             {
-                devolverProducto = sistemImpl.devolverLibro(idProducto,fechaEntrega);
+                devolverProducto = sistemImpl.devolverPelicula(idProducto,fechaEntrega);
             }
             if(!devolverProducto)
             {
@@ -254,7 +254,7 @@ public class Main {
         {
             StdOut.print("Ingrese su nueva contraseña, debe tener almenos una letra mayuscula");
             String contrasenanew = StdIn.readLine();
-            cambiarContrasena =sistemaImpl.cambiarContraseña(nickname,contrasena,contrasenanew);
+            cambiarContrasena =sistemaImpl.cambiarContrasena(nickname,contrasena,contrasenanew);
         }
 
 

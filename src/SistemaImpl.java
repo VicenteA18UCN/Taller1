@@ -23,7 +23,50 @@ public class SistemaImpl implements Sistema {
         this.listaTransaccion = new ListaTransaccion((this.cantMaxTransacciones));
     }
 
+    /**
+     * Este metodo lee el archivo de Usuarios.
+     * @param nombreArchivo
+     * @return
+     */
+
+
     public boolean lecturaUsuarios(String nombreArchivo) {
+        try {
+            ArchivoEntrada archivo = new ArchivoEntrada(nombreArchivo);
+
+            while (!archivo.isEndFile()) {
+                Registro linea = archivo.getRegistro();
+                cantDatos = linea.lenght();
+
+
+
+                String nombre = linea.getString();
+                String apellidoPat = linea.getString();
+                String apellidoMat = linea.getString();
+                String rut = linea.getString();
+                String nickname = linea.getString();
+                String contrasena = linea.getString();
+                String membresia = linea.getString();
+                if (membresia.equals("")) {
+                    membresia = "Normal";
+                }
+
+                Usuario usuario = new Usuario(nombre, apellidoPat, apellidoMat, rut, nickname, contrasena, membresia);
+                this.listaUsuarios.agregar(usuario);
+            }
+
+            archivo.close();
+
+            return this.listaUsuarios.getCantidadUsuarios() == this.cantMaxUsuarios;
+
+
+        } catch (Exception ignored) {
+            return false;
+        }
+    }
+    /*
+    public boolean lecturaUsuarios(String nombreArchivo) {
+
         try {
             ArchivoEntrada archivo = new ArchivoEntrada(nombreArchivo);
 
@@ -54,9 +97,9 @@ public class SistemaImpl implements Sistema {
             return false;
         }
     }
+*/
 
-
-    public boolean lecturaLibro(String nombreArchivo) {
+    public boolean lecturaLibros(String nombreArchivo) {
         try {
             ArchivoEntrada archivo = new ArchivoEntrada(nombreArchivo);
 
@@ -160,7 +203,7 @@ public class SistemaImpl implements Sistema {
         }
         return false;
     }
-    public boolean cambiarContraseña(String nickname, String contrasena, String contrasenaNew)
+    public boolean cambiarContrasena(String nickname, String contrasena, String contrasenaNew)
     {
         Usuario usuario = this.listaUsuarios.obtener(nickname, contrasena);
 
@@ -177,15 +220,15 @@ public class SistemaImpl implements Sistema {
     }
 
     public String[] verLibros() {
-        int n = this.listaLibros.getCantidadLibros();
+        int cantLibros = this.listaLibros.getCantidadLibros();
 
-        if (n == 0) {
+        if (cantLibros == 0) {
             return null;
         }
 
-        String[] infoLibros = new String[n];
+        String[] infoLibros = new String[cantLibros];
 
-        for (int i = 0; i <= n; i++) {
+        for (int i = 0; i <= cantLibros; i++) {
             Libro libro = this.listaLibros.buscar(i);
             infoLibros[i] = libro.toString();
         }
@@ -194,15 +237,15 @@ public class SistemaImpl implements Sistema {
     }
 
     public String[] verPeliculas() {
-        int n = this.listaPeliculas.getCantidadPeliculas();
+        int cantPeliculas = this.listaPeliculas.getCantidadPeliculas();
 
-        if (n == 0) {
+        if (cantPeliculas == 0) {
             return null;
         }
 
-        String[] infoPeliculas = new String[n];
+        String[] infoPeliculas = new String[cantPeliculas];
 
-        for (int i = 0; i <= n; i++) {
+        for (int i = 0; i <= cantPeliculas; i++) {
             Pelicula pelicula = this.listaPeliculas.buscar(i);
             infoPeliculas[i] = pelicula.toString();
         }
@@ -341,7 +384,7 @@ public class SistemaImpl implements Sistema {
                 estTransaccciones2022 = estTransaccciones2022 + 1;
             }
         }
-        return estTransacciones2022();
+        return estTransaccciones2022;
     }
 
     public String[] estadisticas() {
